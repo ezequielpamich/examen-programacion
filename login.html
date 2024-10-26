@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
+<html lang="es" dir="ltr">
+<head>
     <meta charset="utf-8">
     <title>Formulario Login</title>
     <link rel="stylesheet" href="./style.css">
-  </head>
-  <body>
+</head>
+<body>
     <section class="form-login">
-      <h5>Formulario Login</h5>
-      <input class="controls" type="text" name="usuario" value="" placeholder="Usuario">
-      <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña">
-      <input class="buttons" type="submit" name="" value="Ingresar">
-      <p><a href="#">¿Olvidastes tu Contraseña?</a></p>
-
+        <h5>Formulario Login</h5>
+        <form action="../examen-programacion/conexionBD/procesar_login.php" method="POST"> <!-- Cambia la acción a procesar_login.php -->
+            <input class="controls" type="text" name="correo" placeholder="Correo" required>
+            <input class="controls" type="password" name="contrasena" placeholder="Contraseña" required>
+            <input class="buttons" type="submit" value="Ingresar">
+            <p><a href="#">¿Olvidaste tu Contraseña?</a></p>
+        </form>
     </section>
-
-  </body>
+</body>
 </html>
