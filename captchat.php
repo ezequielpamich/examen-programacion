@@ -26,9 +26,9 @@
     $_SESSION["codigos"] = $numero1 . $minus[$generador_min] . $numero2 . $mayus[$generador_may] . $signos[$generador_sig] . $numero3;
 
     // Display the CAPTCHA image (assuming imagen2.php generates the image)
-    echo "<img src='imagen2.php' alt='Captcha' />";
+    echo "<img src='./complementos-captchat/imagen2.php' alt='Captcha' />";
     ?>
-    <form action="confirmacion2.php" method="post">
+    <form action="./complementos-captchat/confirmacion2.php" method="post">
         <label for="confirmacion">Escriba código de seguridad:</label>
         <input name="confirmacion" type="text" id="confirmacion" class="controls" required />
         <p>
