@@ -26,12 +26,19 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $usuario = $result->fetch_assoc();
-    if (password_verify($contrasena, $usuario['contrasena'])) {
-        // Contraseña correcta, redirigir a la página de login exitoso
-        header("Location: ../login exitoso.html");
-        exit(); // Asegúrate de llamar a exit después de header
+
+    // Verificar el estado del usuario
+    if ($usuario['estado_id'] == 2) {
+        echo "El usuario está inactivo y no puede iniciar sesión.";
     } else {
-        echo "Contraseña incorrecta.";
+        // Verificar la contraseña
+        if (password_verify($contrasena, $usuario['contrasena'])) {
+            // Contraseña correcta, redirigir a la página de login exitoso
+            header("Location: ../login exitoso.html");
+            exit(); // Asegúrate de llamar a exit después de header
+        } else {
+            echo "Contraseña incorrecta.";
+        }
     }
 } else {
     echo "El correo no está registrado.";
