@@ -1,17 +1,22 @@
 <?php
-session_start();
+session_start(); // Iniciar sesión para acceder a la variable de sesión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo_ingresado = $_POST["confirmacion"];
     
     if ($codigo_ingresado === $_SESSION["codigos"]) {
-        // Redirige a login.html si el código es correcto
-        header("Location: ../login.html"); // Ajusta la ruta según la estructura de carpetas
+        // Establecer los datos del usuario en la sesión
+        $_SESSION['nombres'] = $_POST['nombres'];
+        $_SESSION['apellidos'] = $_POST['apellidos'];
+        $_SESSION['correo'] = $_POST['correo'];
+        $_SESSION['contrasena'] = $_POST['contrasena'];
+
+        // Redirige a guardar_usuario.php para procesar el registro
+        header("Location: ../conexionBD/guardar_usuario.php"); // Ajusta la ruta según la estructura de carpetas
         exit(); // Asegúrate de salir del script
     } else {
         echo "Código incorrecto. Intente de nuevo.";
-        // También puedes agregar un enlace para volver a intentarlo
-        echo '<p><a href="../index.php">Volver a intentar</a></p>'; // Cambia "index.php" por el nombre de tu archivo original
+        echo '<p><a href="../captchat.php">Volver a intentar</a></p>'; 
     }
 }
 ?>
