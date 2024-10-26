@@ -1,9 +1,9 @@
 <?php
 // Conectar a la base de datos
-$servername = "localhost"; // Cambia esto si tu servidor de base de datos está en otro lugar
-$username = "root"; // Cambia esto por tu usuario de base de datos
-$password = ""; // No tiene contraseña
-$dbname = "login"; // Cambia esto por el nombre de tu base de datos
+$servername = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbname = "login";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,21 +17,40 @@ if ($conn->connect_error) {
 $nombres = $_POST['nombres'];
 $apellidos = $_POST['apellidos'];
 $correo = $_POST['correo'];
-$contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT); // Encriptar la contraseña
-$estado_id = 1; // Puedes establecer un estado como 'Activo' al registrar, o usar un formulario para elegirlo.
+$contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT); 
+$estado_id = 2; 
 
-// Preparar y ejecutar la consulta
-$sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena, estado_id) VALUES (?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssi", $nombres, $apellidos, $correo, $contrasena, $estado_id);
+// Verificar si el correo ya existe
+$sql_check = "SELECT * FROM usuarios WHERE correo = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("s", $correo);
+$stmt_check->execute();
+$result = $stmt_check->get_result();
 
-if ($stmt->execute()) {
-    echo "Registro exitoso.";
+if ($result->num_rows > 0) {
+    echo "El correo ya está registrado.";
 } else {
-    echo "Error: " . $stmt->error;
+    
+    $sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena, estado_id) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt) { // Verifica si se pudo preparar la consulta
+        $stmt->bind_param("ssssi", $nombres, $apellidos, $correo, $contrasena, $estado_id);
+
+        if ($stmt->execute()) {
+            echo "Registro exitoso.";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+    } else {
+        echo "Error al preparar la consulta: " . $conn->error;
+    }
 }
 
 // Cerrar la conexión
-$stmt->close();
+$stmt_check->close();
+if (isset($stmt)) {
+    $stmt->close();
+}
 $conn->close();
 ?>
