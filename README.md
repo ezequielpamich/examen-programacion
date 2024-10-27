@@ -7,4 +7,4 @@
 
  La carpetas conexionBD con las carpetas para las conexiones a base de datos 
 
-
+se instalo composer para instalar phpmailer
